@@ -22,7 +22,7 @@ const SignupPage: React.FC = () => {
                 password,
                 role
             });
-            // Redirect to login after successful registration
+
             navigate('/login');
         } catch (err: any) {
             console.error("Signup Error:", err);
