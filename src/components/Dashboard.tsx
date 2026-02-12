@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch Issues for Recent Activity
+
                 const issuesRes = await api.get('/issue');
                 if (issuesRes.data && Array.isArray(issuesRes.data.issues)) {
                     setIssues(issuesRes.data.issues);
@@ -24,15 +24,15 @@ const Dashboard: React.FC = () => {
                     setIssues(issuesRes.data);
                 }
 
-                // Fetch Stats
+
                 const statsRes = await api.get('/issue/counts');
-                console.log('Stats Response:', statsRes); // Debug Log
+                console.log('Stats Response:', statsRes);
                 if (statsRes.data) {
-                    console.log('Setting Stats:', statsRes.data); // Debug Log
+                    console.log('Setting Stats:', statsRes.data);
                     setStats({
                         total: statsRes.data.total,
                         open: statsRes.data.open,
-                        inProgress: statsRes.data.InProgress || 0, // Backend sends 'InProgress'
+                        inProgress: statsRes.data.InProgress,
                         resolved: statsRes.data.resolved
                     });
                 } else {
@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
                 </Link>
             </div>
 
-            {/* Stats Grid */}
+
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Total Issues</dt>
