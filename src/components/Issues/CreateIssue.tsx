@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import type { User } from '../../types';
 import { ArrowLeft } from 'lucide-react';
 
-const CreateIssue: React.FC = () => {
+export default function CreateIssue() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -210,6 +210,4 @@ const CreateIssue: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default CreateIssue;
+}

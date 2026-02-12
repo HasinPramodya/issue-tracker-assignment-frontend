@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 
-const LoginPage: React.FC = () => {
+export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -104,6 +104,4 @@ const LoginPage: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default LoginPage;
+}

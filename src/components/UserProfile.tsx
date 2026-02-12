@@ -1,8 +1,7 @@
-import React from 'react';
 import { useAuth } from './context/AuthContext';
 import { User as UserIcon, Mail, Shield } from 'lucide-react';
 
-const UserProfile: React.FC = () => {
+export default function UserProfile() {
     const { user } = useAuth();
 
     if (!user) return <div>Loading...</div>;
@@ -40,6 +39,4 @@ const UserProfile: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default UserProfile;
+}

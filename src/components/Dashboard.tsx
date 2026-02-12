@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import type { Issue } from '../types';
 import { Link } from 'react-router-dom';
 
-const Dashboard: React.FC = () => {
+export default function Dashboard() {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [stats, setStats] = useState({
@@ -112,6 +112,4 @@ const Dashboard: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default Dashboard;
+}

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../utils/api';
 import type { Issue } from '../../types';
 import { useAuth } from '../context/AuthContext';
 import { ArrowLeft, Edit, Trash2, Save, X } from 'lucide-react';
 
-const IssueDetail: React.FC = () => {
+export default function IssueDetail() {
     const { title } = useParams<{ title: string }>();
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -216,6 +216,4 @@ const IssueDetail: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default IssueDetail;
+}

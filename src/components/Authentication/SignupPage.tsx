@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 
-const SignupPage: React.FC = () => {
+export default function SignupPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -129,6 +129,4 @@ const SignupPage: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default SignupPage;
+}

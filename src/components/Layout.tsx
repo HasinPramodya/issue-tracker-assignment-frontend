@@ -1,8 +1,7 @@
-import React from 'react';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
 
-const Layout: React.FC = () => {
+export default function Layout() {
     return (
         <div className="flex h-screen bg-gray-100 overflow-hidden">
             <Sidebar />
@@ -11,6 +10,4 @@ const Layout: React.FC = () => {
             </main>
         </div>
     );
-};
-
-export default Layout;
+}

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import api from '../../utils/api';
 import type { Issue } from '../../types';
 import { Plus, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const IssueList: React.FC = () => {
+export default function IssueList() {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -201,6 +201,4 @@ const IssueList: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default IssueList;
+}

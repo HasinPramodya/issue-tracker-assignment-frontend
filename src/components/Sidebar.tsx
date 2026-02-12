@@ -1,10 +1,9 @@
-import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, User, LogOut, List } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import clsx from 'clsx';
 
-const Sidebar: React.FC = () => {
+export default function Sidebar() {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
@@ -54,6 +53,4 @@ const Sidebar: React.FC = () => {
             </div>
         </div>
     );
-};
-
-export default Sidebar;
+}
