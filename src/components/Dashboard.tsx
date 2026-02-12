@@ -9,31 +9,44 @@ const Dashboard: React.FC = () => {
     const [stats, setStats] = useState({
         total: 0,
         open: 0,
+        inProgress: 0,
         resolved: 0
     });
 
     useEffect(() => {
-        const fetchIssues = async () => {
+        const fetchData = async () => {
             try {
-                const response = await api.get('/issue');
-
-                const data = response.data;
-                if (Array.isArray(data)) {
-                    setIssues(data);
-                    setStats({
-                        total: data.length,
-                        open: data.filter((i: Issue) => i.status === 'Open').length,
-                        resolved: data.filter((i: Issue) => i.status === 'Resolved').length
-                    });
+                // Fetch Issues for Recent Activity
+                const issuesRes = await api.get('/issue');
+                if (issuesRes.data && Array.isArray(issuesRes.data.issues)) {
+                    setIssues(issuesRes.data.issues);
+                } else if (Array.isArray(issuesRes.data)) {
+                    setIssues(issuesRes.data);
                 }
+
+                // Fetch Stats
+                const statsRes = await api.get('/issue/counts');
+                console.log('Stats Response:', statsRes); // Debug Log
+                if (statsRes.data) {
+                    console.log('Setting Stats:', statsRes.data); // Debug Log
+                    setStats({
+                        total: statsRes.data.total,
+                        open: statsRes.data.open,
+                        inProgress: statsRes.data.InProgress || 0, // Backend sends 'InProgress'
+                        resolved: statsRes.data.resolved
+                    });
+                } else {
+                    console.warn('Stats response data is empty');
+                }
+
             } catch (error) {
-                console.error("Failed to fetch issues", error);
+                console.error("Failed to fetch dashboard data", error);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        fetchIssues();
+        fetchData();
     }, []);
 
     if (isLoading) return <div className="p-8">Loading dashboard...</div>;
@@ -48,7 +61,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Total Issues</dt>
                     <dd className="mt-1 text-3xl font-semibold text-gray-900">{stats.total}</dd>
@@ -56,6 +69,10 @@ const Dashboard: React.FC = () => {
                 <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Open Issues</dt>
                     <dd className="mt-1 text-3xl font-semibold text-green-600">{stats.open}</dd>
+                </div>
+                <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 sm:p-6">
+                    <dt className="text-sm font-medium text-gray-500 truncate">In-Progress</dt>
+                    <dd className="mt-1 text-3xl font-semibold text-yellow-600">{stats.inProgress}</dd>
                 </div>
                 <div className="bg-white overflow-hidden shadow rounded-lg px-4 py-5 sm:p-6">
                     <dt className="text-sm font-medium text-gray-500 truncate">Resolved Issues</dt>
