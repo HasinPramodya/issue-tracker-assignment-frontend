@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-
+import Swal from 'sweetalert2'
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
@@ -25,12 +25,24 @@ export default function LoginPage() {
                 login(response.data.token, response.data.user);
                 navigate('/');
             } else {
-                setError('Login failed. Invalid response from server.');
+                // setError('Login failed. Invalid response from server.');
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Login failed. Please check your credentials.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                })
             }
 
         } catch (err: any) {
-            console.error("Login Error:", err);
-            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            // console.error("Login Error:", err);
+            // setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Login failed. Please check your credentials.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            })
         }
     };
 

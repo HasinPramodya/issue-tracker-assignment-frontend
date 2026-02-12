@@ -4,6 +4,10 @@ import api from '../../utils/api';
 import type { Issue } from '../../types';
 import { useAuth } from '../context/AuthContext';
 import { ArrowLeft, Edit, Trash2, Save, X } from 'lucide-react';
+import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2/dist/sweetalert2.js'
+// import 'sweetalert2/src/sweetalert2.scss'
+
 
 export default function IssueDetail() {
     const { title } = useParams<{ title: string }>();
@@ -57,25 +61,64 @@ export default function IssueDetail() {
             setIsEditing(false);
         } catch (err: any) {
             console.error("Update Error:", err);
-            alert("Failed to update issue.");
+            // alert("Failed to update issue.");
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to update issue.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            })
         }
     };
 
     const handleDelete = async () => {
-        if (!issue || !window.confirm("Are you sure you want to delete this issue?")) return;
+        if (!issue) return;
 
         if (user?.role !== 'admin') {
-            alert("Only admins can delete issues.");
+            // alert("Only admins can delete issues.");
+            Swal.fire({
+                title: 'Error!',
+                text: 'Only admins can delete issues.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            })
             return;
         }
 
-        try {
-            await api.delete(`/issue/${issue.title}`);
-            navigate('/issues');
-        } catch (err: any) {
-            console.error("Delete Error:", err);
-            alert("Failed to delete issue.");
-        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await api.delete(`/issue/${issue.title}`);
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    navigate('/issues');
+                } catch (err: any) {
+                    console.error("Delete Error:", err);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Failed to delete issue.",
+                        icon: "error"
+                    });
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "Your imaginary file is safe :)",
+                    icon: "error"
+                });
+            }
+        });
     };
 
     if (isLoading) return <div className="p-8">Loading...</div>;
