@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
+import Swal from 'sweetalert2'
+
 
 export default function SignupPage() {
     const [name, setName] = useState('');
@@ -26,7 +28,13 @@ export default function SignupPage() {
             navigate('/login');
         } catch (err: any) {
             console.error("Signup Error:", err);
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            // setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Registration failed. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            })
         }
     };
 

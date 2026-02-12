@@ -4,6 +4,7 @@ import api from '../../utils/api';
 import { useAuth } from '../context/AuthContext';
 import type { User } from '../../types';
 import { ArrowLeft } from 'lucide-react';
+import Swal from 'sweetalert2'
 
 export default function CreateIssue() {
     const { user } = useAuth();
@@ -49,7 +50,13 @@ export default function CreateIssue() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) {
-            setError('You must be logged in to create an issue.');
+            // setError('You must be logged in to create an issue.');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!"
+
+            });
             return;
         }
 
@@ -78,7 +85,14 @@ export default function CreateIssue() {
                 console.error("Error Response Data:", err.response.data);
                 console.error("Error Response Status:", err.response.status);
             }
-            setError(err.response?.data?.message || err.message || 'Failed to create issue.');
+            // setError(err.response?.data?.message || err.message || 'Failed to create issue.');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Failed to create issue.",
+                confirmButtonText: 'Try Again'
+
+            });
         } finally {
             setIsLoading(false);
         }
