@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-// Assuming you have a way to navigate, e.g., react-router-dom
+
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../utils/api';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
@@ -17,13 +17,13 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
         setError('');
         try {
-            // Using the configured api instance
+
             const response = await api.post('/user/login', { email, password });
 
-            // response.data contains { message, token, user }
+
             if (response.data.token && response.data.user) {
                 login(response.data.token, response.data.user);
-                navigate('/'); // Redirect to dashboard
+                navigate('/');
             } else {
                 setError('Login failed. Invalid response from server.');
             }
